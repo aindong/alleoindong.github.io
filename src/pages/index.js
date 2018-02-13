@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'gatsby-link'
 import Script from 'react-load-script'
-
+import graphql from "graphql";
 
 class IndexPage extends React.Component {
   handleScriptLoad() {
@@ -63,3 +63,22 @@ class IndexPage extends React.Component {
 }
 
 export default IndexPage
+
+export const pageQuery = graphql`
+  query IndexQuery {
+    allMarkdownRemark(sort: { order: DESC, fields: [frontmatter___date] }) {
+      edges {
+        node {
+          excerpt(pruneLength: 400)
+          id
+          frontmatter {
+            title
+            templateKey
+            date(formatString: "MMMM DD, YYYY")
+            path
+          }
+        }
+      }
+    }
+  }
+`;
